@@ -1,4 +1,4 @@
-﻿[cmdletbinding()]
+[cmdletbinding()]
 param(
 [String] [Parameter(Mandatory = $true)]
     $ConnectedServiceName,
@@ -73,23 +73,23 @@ function Write-Settings-To-WebApp()
 
 		if ($settings.Count -gt 0){
 			Write-Verbose "Write appsettings to website with deploymentslot"	
-			$site = Set-AzureRMWebAppSlot -Name $WebAppName -ResourceGroupName $ResourceGroupName -AppSettings $settings -Slot $SlotName			
+			$site = Set-AzWebAppSlot -Name $WebAppName -ResourceGroupName $ResourceGroupName -AppSettings $settings -Slot $SlotName			
 		}
 		if ($connectionStringsHashTable.Count -gt 0){
 			Write-Verbose "Write connectionstrings to website with deploymentslot"	
-			$site = Set-AzureRMWebAppSlot -Name $WebAppName -ResourceGroupName $ResourceGroupName -ConnectionStrings $connectionStringsHashTable -Slot $SlotName			
+			$site = Set-AzWebAppSlot -Name $WebAppName -ResourceGroupName $ResourceGroupName -ConnectionStrings $connectionStringsHashTable -Slot $SlotName			
 		}
 	}
 	else
 	{
 		if ($settings.Count -gt 0){
 			Write-Verbose "Write appsettings to website"	
-			$site = Set-AzureRMWebApp -Name $WebAppName -ResourceGroupName $ResourceGroupName -AppSettings $settings 
+			$site = Set-AzWebApp -Name $WebAppName -ResourceGroupName $ResourceGroupName -AppSettings $settings 
 		}
 		if ($connectionStringsHashTable.Count -gt 0){
 			Write-Verbose "Write connectionstrings to website"			
 
-			$site = Set-AzureRMWebApp -Name $WebAppName -ResourceGroupName $ResourceGroupName -ConnectionStrings $connectionStringsHashTable	
+			$site = Set-AzWebApp -Name $WebAppName -ResourceGroupName $ResourceGroupName -ConnectionStrings $connectionStringsHashTable	
 		}
 	}
 }
@@ -102,7 +102,7 @@ function Write-Sticky-Settings()
 	$stickySlot.properties.appSettingNames = $stickyAppSettingNames.ToArray()
 	$stickySlot.properties.connectionStringNames = $stickyConnectionStringNames.ToArray()
 
-	Set-AzureRmResource -ResourceName $resourceName -ResourceGroupName $ResourceGroupName -ResourceType "Microsoft.Web/Sites/config" -PropertyObject $stickySlot.properties -ApiVersion "2015-08-01" -Force
+	Set-AzResource -ResourceName $resourceName -ResourceGroupName $ResourceGroupName -ResourceType "Microsoft.Web/Sites/config" -PropertyObject $stickySlot.properties -ApiVersion "2015-08-01" -Force
 }
 
 function Read-WebConfigToPrepareValidation()
@@ -137,12 +137,12 @@ function Read-Settings-From-WebApp()
 	if($SlotName)
 	{
 		Write-Verbose "Reading configuration from website $WebAppName and deploymentslot $SlotName" 
-		$script:WebSite = Get-AzureRmWebAppSlot -Name $WebAppName -Slot $SlotName -ResourceGroupName $ResourceGroupName
+		$script:WebSite = Get-AzWebAppSlot -Name $WebAppName -Slot $SlotName -ResourceGroupName $ResourceGroupName
 	}
 	else
 	{
 		Write-Verbose "Reading configuration from website $WebAppName" 
-		$script:WebSite = Get-AzureRmWebApp -Name $WebAppName -ResourceGroupName $ResourceGroupName
+		$script:WebSite = Get-AzWebApp -Name $WebAppName -ResourceGroupName $ResourceGroupName
 	}
 	if(!$WebSite) 
 	{
@@ -152,7 +152,7 @@ function Read-Settings-From-WebApp()
 	}
 
 	Write-Verbose "Fetch appsettings"
-	# Get all appsettings and put in Hashtable (because Set-AzureRMWebApp needs that)
+	# Get all appsettings and put in Hashtable (because Set-AzWebApp needs that)
 	if (!$Clean)
 	{
 		ForEach ($kvp in $WebSite.SiteConfig.AppSettings) {
@@ -162,7 +162,7 @@ function Read-Settings-From-WebApp()
 	Write-Verbose "appsettings: $settings"
 	Write-Verbose "Fetch connectionstrings"
 
-	# Get all connectionstrings and put it in a Hashtable (because Set-AzureRMWebApp needs that)	
+	# Get all connectionstrings and put it in a Hashtable (because Set-AzWebApp needs that)	
 	if (!$Clean)
 	{
 		ForEach ($kvp in $WebSite.SiteConfig.ConnectionStrings) {
@@ -177,7 +177,7 @@ function Read-Sticky-Settings()
 	Write-Verbose "Read-Sticky-Settings"
 	
 	$resourceName = $WebAppName + "/slotConfigNames"
-	$script:stickySlot = Get-AzureRmResource -ResourceName $resourceName -ResourceGroupName $ResourceGroupName -ResourceType "Microsoft.Web/sites/config" -ApiVersion "2015-08-01"
+	$script:stickySlot = Get-AzResource -ResourceName $resourceName -ResourceGroupName $ResourceGroupName -ResourceType "Microsoft.Web/sites/config" -ApiVersion "2015-08-01"
 	
 	if (!$Clean)
 	{
@@ -367,5 +367,3 @@ else
 	Write-Sticky-Settings
 }
 Write-Verbose "##vso[task.complete result=Succeeded;]DONE"
-
-
