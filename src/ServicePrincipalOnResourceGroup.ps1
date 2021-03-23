@@ -24,14 +24,14 @@ $identifierUri = $homePage
 
 
 #Initialize subscription
-$isAzureModulePresent = Get-Module -Name AzureRM* -ListAvailable
+$isAzureModulePresent = Get-Module -Name Az* -ListAvailable
 if ([String]::IsNullOrEmpty($isAzureModulePresent) -eq $true)
 {
-    Write-Output "Script requires AzureRM modules to be present. Obtain AzureRM from https://github.com/Azure/azure-powershell/releases. Please refer https://github.com/Microsoft/vsts-tasks/blob/master/Tasks/DeployAzureResourceGroup/README.md for recommended AzureRM versions." -Verbose
+    Write-Output "Script requires Az modules to be present. Obtain Az from https://github.com/Azure/azure-powershell/releases. Please refer https://github.com/Microsoft/vsts-tasks/blob/master/Tasks/DeployAzureResourceGroup/README.md for recommended Az versions." -Verbose
     return
 }
 
-Import-Module -Name AzureRM.Profile
+Import-Module -Name Az.Profile
 Write-Output "Provide your credentials to access Azure subscription $subscriptionName" -Verbose
 Login-AzureRmAccount -SubscriptionName $subscriptionName
 $azureSubscription = Get-AzureRmSubscription -SubscriptionName $subscriptionName
