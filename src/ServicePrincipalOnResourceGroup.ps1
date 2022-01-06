@@ -33,8 +33,8 @@ if ([String]::IsNullOrEmpty($isAzureModulePresent) -eq $true)
 
 Import-Module -Name Az.Profile
 Write-Output "Provide your credentials to access Azure subscription $subscriptionName" -Verbose
-Login-AzureRmAccount -SubscriptionName $subscriptionName
-$azureSubscription = Get-AzureRmSubscription -SubscriptionName $subscriptionName
+Login-AzAccount -Subscription $subscriptionName
+$azureSubscription = Get-AzSubscription -SubscriptionName $subscriptionName
 $connectionName = $azureSubscription.SubscriptionName
 $tenantId = $azureSubscription.TenantId
 $id = $azureSubscription.SubscriptionId
@@ -42,14 +42,14 @@ $id = $azureSubscription.SubscriptionId
 
 #Create a new AD Application
 Write-Output "Creating a new Application in AAD (App URI - $identifierUri)" -Verbose
-$azureAdApplication = New-AzureRmADApplication -DisplayName $displayName -HomePage $homePage -IdentifierUris $identifierUri -Password $password -Verbose
+$azureAdApplication = New-AzADApplication -DisplayName $displayName -HomePage $homePage -IdentifierUri $identifierUri -Password $password -Verbose
 $appId = $azureAdApplication.ApplicationId
 Write-Output "Azure AAD Application creation completed successfully (Application Id: $appId)" -Verbose
 
 
 #Create new SPN
 Write-Output "Creating a new SPN" -Verbose
-$spn = New-AzureRmADServicePrincipal -ApplicationId $appId
+$spn = New-AzADServicePrincipal -ApplicationId $appId
 $spnName = $spn.ServicePrincipalName
 Write-Output "SPN creation completed successfully (SPN Name: $spnName)" -Verbose
 
@@ -58,7 +58,7 @@ Write-Output "SPN creation completed successfully (SPN Name: $spnName)" -Verbose
 Write-Output "Waiting for SPN creation to reflect in Directory before Role assignment"
 Start-Sleep 20
 Write-Output "Assigning role ($spnRole) to SPN App ($appId)" -Verbose
-New-AzureRmRoleAssignment -RoleDefinitionName $spnRole -ServicePrincipalName $appId -ResourceGroupName $resourceGroupName
+New-AzRoleAssignment -RoleDefinitionName $spnRole -ApplicationId $appId -ResourceGroupName $resourceGroupName
 Write-Output "SPN role assignment completed successfully" -Verbose
 
 

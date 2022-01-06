@@ -36,7 +36,7 @@
       "properties": {
         "EditableOptions": "True"
       },
-      "helpMarkDown": "Enter or Select the name of an existing AzureRM Web Application."
+      "helpMarkDown": "Enter or Select the name of an existing Azure Web Application."
     },
     {
       "name": "ResourceGroupName",
@@ -47,7 +47,7 @@
       "properties": {
         "EditableOptions": "True"
       },
-      "helpMarkDown": "Enter or Select the Azure Resource Group that contains the AzureRM Web App specified above."
+      "helpMarkDown": "Enter or Select the Azure Resource Group that contains the Azure Web App specified above."
 
     },
     {
