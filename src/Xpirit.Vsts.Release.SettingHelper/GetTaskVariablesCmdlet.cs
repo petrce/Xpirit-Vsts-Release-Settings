@@ -1,6 +1,5 @@
-﻿using Microsoft.TeamFoundation.DistributedTask.Agent.Common;
-using Microsoft.TeamFoundation.DistributedTask.Agent.Interfaces;
-using System.Management.Automation;
+﻿using System.Management.Automation;
+using Microsoft.TeamFoundation.DistributedTask.Task.LegacySDK;
 
 namespace Xpirit.Vsts.Release.SettingHelper
 {
@@ -16,9 +15,8 @@ namespace Xpirit.Vsts.Release.SettingHelper
         protected override void ProcessRecord()
         {
             base.ProcessRecord();
-            TraceLogger.Default.Verbose("Invoke - Get-TaskVariables cmdlet");
             
-            this.WriteObject(TaskContextHelper.GetAllVariables(this.Context, this.IsSafe));
+            WriteObject(TaskContextHelper.GetAllVariables(Context, IsSafe));
         }
     }
 }

@@ -31,6 +31,7 @@ $PSBoundParameters.Keys | %{ Write-Verbose "$_ = $($PSBoundParameters[$_])" }
 Write-Verbose "Importing modules"
 import-module "Microsoft.TeamFoundation.DistributedTask.Task.Internal"
 import-module "Microsoft.TeamFoundation.DistributedTask.Task.Common"
+Import-Module Az.Websites
 
 $settingHelperPath = "./Modules\Xpirit.Vsts.Release.SettingHelper.dll"
 import-module $settingHelperPath

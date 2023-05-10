@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.TeamFoundation.DistributedTask.Agent.Common;
-using Microsoft.TeamFoundation.DistributedTask.Agent.Interfaces;
-using System;
+﻿using System.Collections.Generic;
+using Microsoft.TeamFoundation.DistributedTask.Task.LegacySDK;
 
 namespace Xpirit.Vsts.Release.SettingHelper
 {
@@ -13,19 +7,14 @@ namespace Xpirit.Vsts.Release.SettingHelper
     {
         public static IDictionary<string, string> GetAllVariables(ITaskContext context, bool isSafe = false)
         {
-            IVariableService ivariableService = (IVariableService)((IServiceManager)context).GetService<IVariableService>();
-            IDictionary<string, string> dictionary = new Dictionary<string, string>();
-            if (ivariableService != null)
-            {
+            var variableService = context.GetService<IVariableService>();
+            var dictionary = new Dictionary<string, string>();
+            if (variableService != null)
                 if (!isSafe)
-                    ivariableService.MergeVariables(dictionary);
+                    variableService.MergeVariables(dictionary);
                 else
-                {
-                    ivariableService.MergeSafeVariables(dictionary);
-                }
-            }
+                    variableService.MergeVariables(dictionary);
 
-            
             return dictionary;
         }
     }

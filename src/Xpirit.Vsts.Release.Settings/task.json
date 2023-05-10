@@ -1,15 +1,15 @@
 {
-  "id": "589ED0E7-982C-4317-928F-19C419C947DC",
-  "name": "webappconfiguration",
+  "id": "e7030ddf-0635-4350-8dbe-e9b272541286",
+  "name": "webappconfiguration2",
   "friendlyName": "Apply variables to Azure webapp",
   "description": "Apply AppSettings and ConnectionStrings from VSTS variables to a webapp",
   "helpMarkDown": "[More Information, setup...](https://pascalnaber.wordpress.com/2016/07/27/vsts-task-to-deploy-appsettings-and-connectionstrings-to-an-azure-webapp/)",
   "category": "Utility",
   "author": "Pascal Naber (Xpirit)",
   "version": {
-    "Major": 1,
+    "Major": 2,
     "Minor": 0,
-    "Patch": 91
+    "Patch": 97
   },
   "demands": [ "azureps" ],
   "visibility": [
@@ -22,7 +22,7 @@
     {
       "name": "ConnectedServiceName",
       "type": "connectedService:AzureRM",
-      "label": "AzureRM Subscription",
+      "label": "Azure Subscription",
       "defaultValue": "",
       "required": true,
       "helpMarkDown": "Select the Azure Resource Manager subscription."

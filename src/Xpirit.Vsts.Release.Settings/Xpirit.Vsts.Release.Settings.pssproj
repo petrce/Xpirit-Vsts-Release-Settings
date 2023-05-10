@@ -34,11 +34,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplySettings.ps1" />
-    <Compile Include="modules\Xpirit.Vsts.Release.SettingHelper\Xpirit.Vsts.Release.SettingHelper.dll" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="modules\" />
-    <Folder Include="modules\Xpirit.Vsts.Release.SettingHelper\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />
